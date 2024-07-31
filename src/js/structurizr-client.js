@@ -28,10 +28,9 @@ structurizr.io.StructurizrApiClient = class StructurizrApiClient {
     getWorkspace(version, callback) {
         const self = this;
         const contentMd5 = CryptoJS.MD5("");
-        const contentType = '';
         const nonce = new Date().getTime();
 
-        const content = "GET" + "\n" + this.#getPath() + "/workspace/" + this.#workspaceId + "\n" + contentMd5 + "\n" + contentType + "\n" + nonce + "\n";
+        const content = "GET" + "\n" + this.#getPath() + "/workspace/" + this.#workspaceId + "\n" + contentMd5 + "\n" + "\n" + nonce + "\n";
         const hmac = CryptoJS.HmacSHA256(content, this.#apiSecret).toString(CryptoJS.enc.Hex);
 
         var url = this.#apiUrl + "/workspace/" + this.#workspaceId;
@@ -44,7 +43,6 @@ structurizr.io.StructurizrApiClient = class StructurizrApiClient {
             type: "GET",
             cache: false,
             headers: {
-                'Content-Type': contentType,
                 'Content-MD5': btoa(contentMd5),
                 'Nonce': nonce,
                 'X-Authorization': this.#apiKey + ":" + btoa(hmac)
